@@ -11,6 +11,8 @@ import matplotlib.image as mpimg
 import pandas as pd
 
 
+###################################################CONTACT: av5617@rit.edu   ######################################
+
 #####    UNCOMMENT TO HAVE USER INPUT FILES AND PATH
 #print('enter path to imm file')
 #path = input()
@@ -215,24 +217,22 @@ def immtotxt(fid,frame):
 f_array = []
 frame_array = []
 dark_frames = []
-#3000 for ag001
+#loop over immtotxt for each frame n. Has an issue with large frame counts.
 for n in range(ndark0, ndarkend+1):
     next_dframe = immtotxt(fid,n)
     dark_frames.append(next_dframe)
-for j in range(ndark0, ndarkend+2000):
+for j in range(ndark0, ndarkend+2000):   #play with the +2000 number, >3000 frames has long run time
     nextf = immtotxt(fid,j)
     f_array.append(nextf)
-#for k in range(ndata0,ndataend+1):
-#    next_frame = immtotxt(fid,k)
-#    frame_array.append(next_frame)
+
 darks = np.reshape(dark_frames, (len(dark_frames),rrows,ccols))
-lights = np.reshape(f_array, (len(f_array),rrows,ccols))
+lights = np.reshape(f_array, (len(f_array),rrows,ccols))                 #reshape arrays from 1d to 3d
 #print(np.shape(lights))
 if (ndarkend>11):
    dnum = 21
 elif (ndarkend<11):
     dnum = 11
-print(ndark0,dnum,'here')
+#print(ndark0,dnum,'here')
 lights = lights[dnum::1]
 #print(np.shape(lights))
 averaged_dark = np.average(darks,axis=0)
